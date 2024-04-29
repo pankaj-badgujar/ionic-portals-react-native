@@ -5,6 +5,7 @@
   "dependencies": {
     "@capacitor/core": "^5.0.0",
     "@ionic/portals": "^0.8.1",
+    "@ionic/pwa-elements": "^3.3.0",
     "@ionic/react": "^6.0.0",
     "@ionic/react-router": "^6.0.0",
     "@testing-library/jest-dom": "^5.11.9",

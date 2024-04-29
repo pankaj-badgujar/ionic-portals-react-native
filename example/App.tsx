@@ -9,7 +9,7 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
-
+import { Camera, CameraResultType } from '@capacitor/camera';
 import {
   EmitterSubscription,
   SafeAreaView,
@@ -46,6 +46,12 @@ const portal = {
   initialContext: {
     initialNumber: 2,
   },
+  plugins: [
+    {
+      androidClassPath: 'com.capacitorjs.plugins.camera.CameraPlugin',
+      iosClassName: 'CAPCameraPlugin',
+    },
+  ],
 };
 
 addPortal(portal);
@@ -57,6 +63,21 @@ const PubSubLabel: React.FC<{ initialNumber: number }> = ({
   const [immutableNumber, setNumber] = useState(initialNumber);
   const subRef = useRef<EmitterSubscription | null>(null);
   const number = useRef(initialNumber);
+
+  useEffect(() => {
+    subRef.current = subscribe('console:log', (message: Message) => {
+      console.log(
+        `Received message ${JSON.stringify(message.data, null, 2)} on topic ${
+          message.topic
+        } from IonicPortals`,
+      );
+    });
+
+    return () => {
+      console.log('Unsubscribing from ref ', subRef);
+      subRef.current?.remove();
+    };
+  }, []);
 
   useEffect(() => {
     subRef.current = subscribe('button:tapped', (message: Message) => {
@@ -80,6 +101,45 @@ const PubSubLabel: React.FC<{ initialNumber: number }> = ({
       subRef.current?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    subRef.current = subscribe('openCameraButton:tapped', (message: Message) => {
+      console.log(
+        `Received message ${JSON.stringify(message.data, null, 2)} on topic ${
+          message.topic
+        } from IonicPortals`,
+      );
+
+      // we need to open native camera here
+      console.log('now opening camera');
+      takePicture();
+    });
+
+    return () => {
+      console.log('Unsubscribing from ref ', subRef);
+      subRef.current?.remove();
+    };
+  }, []);
+
+const takePicture = async () => {
+  console.log('inside takePicture');
+  try{
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: true,
+      resultType: CameraResultType.Uri
+    });
+
+    console.log('after taking picture: ', image);
+    // image.webPath will contain a path that can be set as an image src.
+    // You can access the original file using image.path, which can be
+    // passed to the Filesystem API to read the raw data of the image,
+    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+    console.log('imageUrl: ', image.webPath);
+  } catch (error) {
+    console.error('error taking picture: ', error);
+  }
+};
 
   return (
     <View style={styles.sectionContainer}>
