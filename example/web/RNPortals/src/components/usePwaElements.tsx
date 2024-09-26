@@ -11,7 +11,7 @@ import { printWebLogOnMetro } from '../helpers';
 export function usePWAElements() {
   (async () => {
         printWebLogOnMetro('before defineCustomElements');
-        const response = await defineCustomElements(window);
-        printWebLogOnMetro('after defineCustomElements: ' + response);
+        await defineCustomElements(window);
+        printWebLogOnMetro('after defineCustomElements');
   })();
 }
