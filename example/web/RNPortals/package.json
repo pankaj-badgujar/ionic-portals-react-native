@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@capacitor/camera": "^5.0.10",
     "@capacitor/core": "^5.0.0",
     "@ionic/portals": "^0.8.1",
     "@ionic/pwa-elements": "^3.3.0",
