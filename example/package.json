@@ -17,8 +17,8 @@
     "@capacitor/core": "^5.4.1",
     "@capacitor/ios": "^5.7.8",
     "@ionic/portals-react-native": "file:../ionic-portals-react-native-0.5.2.tgz",
-    "react": "17.0.2",
-    "react-native": "0.68.1"
+    "react": "18.2.0",
+    "react-native": "0.72.12"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
